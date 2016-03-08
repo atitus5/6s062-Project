@@ -62,7 +62,7 @@
 
 \author{
 \large
-\textsc{Austin Freel, Andrew Titus}\thanks{}\\[2mm] % Your name
+\textsc{Austin Freel, Andrew Titus}\\[2mm] % Your name
 \normalsize Massachusetts Institute of Technology \\ % Your institution
 \normalsize [\href{mailto:afreel@mit.edu}{afreel}, \href{mailto:atitus@mit.edu}{atitus}]@mit.edu % Your email address
 \vspace{-5mm}
@@ -85,20 +85,39 @@
 
 \section{Introduction}
 
-\lettrine[nindent=0em,lines=3]{P} roblem statement goes here.
-Followed by paragraph description.
+\lettrine[nindent=0em,lines=3]{M}any multi-factor authentication schemes using external
+hardware exist, but few utilize the existing Bluetooth Low Energy (BLE) and sensor hardware
+on people's mobile devices. This lack of ubiquity can lead to significant ``friction'' in
+users - that is, users experience a level of frustration every time they need to use a
+separate device that can often lead to users opting for less secure but easier to use methods.
+Fortunately, most mobile devices manufactured in the past few years contain hardware that
+enables BLE and various sensors to be utilized for wireless communications and data collection.
+This leads us to propose that a ``low-friction'' system can be built for existing mobile
+hardware that guarantees the same level of security for multi-factor authentication.
 
 %------------------------------------------------
 
 \section{Methodology}
 
-Bob Loblaw
-\begin{compactitem}
-\item{Bob Loblaw 1}
-\item{Bob Loblaw 2}
-\item{Bob Loblaw 3}
-\end{compactitem}
-Bob Loblaw
+Many Bluetooth-enabled peripherals (including mobile devices) have the ability to support
+encrypted communication. We will build our system on iOS, as the operating system requires
+that all remote devices connected to it support encrypted pairing connections
+(https://support.apple.com/en-us/HT204387). We will start out by developing a pair of iOS
+9 applications, one of which will function as a normal user and one of which will function
+as the BLE peripheral to which to send encrypted credentials. This will enable us to test
+the pairing and authentication processes without using external hardware for peripherals
+during testing. Then, we plan to replace this BLE peripheral iPhone with an external
+hardware device, such as the Anthill or a custom-built Bluetooth peripheral (perhaps
+a 6.115 project by Andrew).
+
+The setup of the pairing connection will be done by standard Apple guidelines for connecting
+Bluetooth devices. Authentication methods, however, are much more flexible and wide-ranging.
+We will initially start with a simple one-factor authentication system, such as a username/password
+combination or certificate-based system. Then, we will move into multi-factor authentication
+schemes which are augmented by internal sensor data, such as gestures. We also hope to make the
+system more robust to spurious authentications by using sensor data as well. For example, in the
+use case of the BLE peripheral being a door lock, this would prevent users from unlocking a door
+if they are simply walking by it.
 
 %------------------------------------------------
 
@@ -139,22 +158,6 @@ Bob Loblaw
 \subsection{Subsection Two}
 
 Bob Loblaw
-
-%----------------------------------------------------------------------------------------
-% REFERENCE LIST
-%----------------------------------------------------------------------------------------
-
-\begin{thebibliography}{99} % Bibliography - this is intentionally simple in this template
-
-\bibitem[Figueredo and Wolf, 2009]{Figueredo:2009dg}
-Figueredo, A.~J. and Wolf, P. S.~A. (2009).
-\newblock Assortative pairing and life history strategy - a cross-cultural
-  study.
-\newblock {\em Human Nature}, 20:317--330.
- 
-\end{thebibliography}
-
-%----------------------------------------------------------------------------------------
 
 \end{multicols}
 
