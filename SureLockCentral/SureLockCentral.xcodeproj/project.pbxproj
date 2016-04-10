@@ -10,9 +10,10 @@
 		AE1127091CB3376600F9C77F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1127081CB3376600F9C77F /* main.m */; };
 		AE11270C1CB3376600F9C77F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AE11270B1CB3376600F9C77F /* AppDelegate.m */; };
 		AE11270F1CB3376600F9C77F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE11270E1CB3376600F9C77F /* ViewController.m */; };
-		AE1127121CB3376600F9C77F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1127101CB3376600F9C77F /* Main.storyboard */; };
 		AE1127141CB3376700F9C77F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE1127131CB3376700F9C77F /* Assets.xcassets */; };
-		AE1127171CB3376700F9C77F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1127151CB3376700F9C77F /* LaunchScreen.storyboard */; };
+		AEADE4021CB9BF940082F6B0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEADE4011CB9BF940082F6B0 /* Launch Screen.storyboard */; };
+		AEEB6FC61CB9CE29009A2289 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEEB6FC51CB9CE29009A2289 /* CoreBluetooth.framework */; };
+		AEEB6FC91CB9CEDD009A2289 /* BLEManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEB6FC81CB9CEDD009A2289 /* BLEManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,10 +23,12 @@
 		AE11270B1CB3376600F9C77F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		AE11270D1CB3376600F9C77F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		AE11270E1CB3376600F9C77F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		AE1127111CB3376600F9C77F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AE1127131CB3376700F9C77F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		AE1127161CB3376700F9C77F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AE1127181CB3376700F9C77F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AEADE4011CB9BF940082F6B0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "../Launch Screen.storyboard"; sourceTree = "<group>"; };
+		AEEB6FC51CB9CE29009A2289 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		AEEB6FC71CB9CEDD009A2289 /* BLEManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEManager.h; sourceTree = "<group>"; };
+		AEEB6FC81CB9CEDD009A2289 /* BLEManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEEB6FC61CB9CE29009A2289 /* CoreBluetooth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +46,7 @@
 		AE1126FB1CB3376400F9C77F = {
 			isa = PBXGroup;
 			children = (
+				AEEB6FC51CB9CE29009A2289 /* CoreBluetooth.framework */,
 				AE1127061CB3376600F9C77F /* SureLockCentral */,
 				AE1127051CB3376500F9C77F /* Products */,
 			);
@@ -60,11 +65,12 @@
 			children = (
 				AE11270A1CB3376600F9C77F /* AppDelegate.h */,
 				AE11270B1CB3376600F9C77F /* AppDelegate.m */,
+				AEEB6FC71CB9CEDD009A2289 /* BLEManager.h */,
+				AEEB6FC81CB9CEDD009A2289 /* BLEManager.m */,
 				AE11270D1CB3376600F9C77F /* ViewController.h */,
 				AE11270E1CB3376600F9C77F /* ViewController.m */,
-				AE1127101CB3376600F9C77F /* Main.storyboard */,
 				AE1127131CB3376700F9C77F /* Assets.xcassets */,
-				AE1127151CB3376700F9C77F /* LaunchScreen.storyboard */,
+				AEADE4011CB9BF940082F6B0 /* Launch Screen.storyboard */,
 				AE1127181CB3376700F9C77F /* Info.plist */,
 				AE1127071CB3376600F9C77F /* Supporting Files */,
 			);
@@ -142,9 +148,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE1127171CB3376700F9C77F /* LaunchScreen.storyboard in Resources */,
+				AEADE4021CB9BF940082F6B0 /* Launch Screen.storyboard in Resources */,
 				AE1127141CB3376700F9C77F /* Assets.xcassets in Resources */,
-				AE1127121CB3376600F9C77F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,31 +161,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE11270F1CB3376600F9C77F /* ViewController.m in Sources */,
+				AEEB6FC91CB9CEDD009A2289 /* BLEManager.m in Sources */,
 				AE11270C1CB3376600F9C77F /* AppDelegate.m in Sources */,
 				AE1127091CB3376600F9C77F /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		AE1127101CB3376600F9C77F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AE1127111CB3376600F9C77F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		AE1127151CB3376700F9C77F /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AE1127161CB3376700F9C77F /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		AE1127191CB3376700F9C77F /* Debug */ = {
@@ -271,7 +258,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = SureLockCentral/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.drewtitus.SureLockCentral;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -284,7 +271,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = SureLockCentral/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.drewtitus.SureLockCentral;
 				PRODUCT_NAME = "$(TARGET_NAME)";
