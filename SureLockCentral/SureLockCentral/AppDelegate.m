@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
-#import "BLEManager.h"
 
 CGFloat BLERED = 11.0/255.0;
 CGFloat BLEGREEN = 74.0/255.0;
@@ -28,17 +27,6 @@ CGFloat BLEBLUE = 143.0/255.0;
     CGRect windowFrame = [[UIScreen mainScreen] bounds];
     UIWindow *mainWindow = [[UIWindow alloc] initWithFrame:windowFrame];
     [self setWindow:mainWindow];
-    
-    // Set up greeting message
-    CGFloat fontSize = 20.0;
-    CGRect greetingFrame = CGRectMake(0, ([[UIScreen mainScreen] bounds].size.height / 2.0) - (fontSize / 2.0), [[UIScreen mainScreen] bounds].size.width, fontSize);
-    greetingMessage = [[UILabel alloc] initWithFrame:greetingFrame];
-    [greetingMessage setText:@"Welcome to SureLock!"];
-    [greetingMessage setTextColor:[UIColor whiteColor]];
-    [greetingMessage setTextAlignment:NSTextAlignmentCenter];
-    [greetingMessage setFont:[UIFont systemFontOfSize:fontSize]];
-    [[self window] addSubview:greetingMessage];
-    
     
     // Finalize window and display
     [[self window] setRootViewController:[[ViewController alloc] init]];

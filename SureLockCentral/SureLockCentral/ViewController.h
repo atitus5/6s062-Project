@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BLEManager.h"
 
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <BLEManagerDelegate> {
+    UILabel *greetingMessage, *statusMessage;
+}
 
 
 @end
