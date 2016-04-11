@@ -1,12 +1,17 @@
 //
 //  AppDelegate.m
-//  SureLockPeripheral
+//  SureLockCentral
 //
 //  Created by Andrew Titus on 4/4/16.
 //  Copyright © 2016 Drew Titus. All rights reserved.
 //
 
 #import "AppDelegate.h"
+#import "ViewController.h"
+
+CGFloat BLERED = 11.0/255.0;
+CGFloat BLEGREEN = 74.0/255.0;
+CGFloat BLEBLUE = 143.0/255.0;
 
 @interface AppDelegate ()
 
@@ -14,9 +19,34 @@
 
 @implementation AppDelegate
 
-
+    
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    // Set up window
+    CGRect windowFrame = [[UIScreen mainScreen] bounds];
+    UIWindow *mainWindow = [[UIWindow alloc] initWithFrame:windowFrame];
+    [self setWindow:mainWindow];
+    
+    // Set up greeting message
+    CGFloat fontSize = 20.0;
+    CGRect greetingFrame = CGRectMake(0, ([[UIScreen mainScreen] bounds].size.height / 2.0) - (fontSize / 2.0), [[UIScreen mainScreen] bounds].size.width, fontSize);
+    greetingMessage = [[UILabel alloc] initWithFrame:greetingFrame];
+    [greetingMessage setText:@"Welcome to SureLock!"];
+    [greetingMessage setTextColor:[UIColor whiteColor]];
+    [greetingMessage setTextAlignment:NSTextAlignmentCenter];
+    [greetingMessage setFont:[UIFont systemFontOfSize:fontSize]];
+    [[self window] addSubview:greetingMessage];
+    
+    
+    // Finalize window and display
+    [[self window] setRootViewController:[[ViewController alloc] init]];
+    [[self window] setBackgroundColor:[UIColor colorWithRed:BLERED
+                                                      green:BLEGREEN
+                                                       blue:BLEBLUE
+                                                      alpha:1.0]];
+    [[self window] makeKeyAndVisible];
+    
     return YES;
 }
 
