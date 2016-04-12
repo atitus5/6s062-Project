@@ -26,4 +26,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)lock {
+    self.lockLabel.text = @"Locked";
+}
+
+- (void)unlock {
+    self.lockLabel.text = @"Unlocked";
+}
+
 @end

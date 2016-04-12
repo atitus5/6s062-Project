@@ -7,13 +7,15 @@
 //
 
 #import "AppDelegate.h"
+#import "PeripheralModel.h"
 #import "ViewController.h"
 
-CGFloat BLERED = 11.0/255.0;
-CGFloat BLEGREEN = 74.0/255.0;
-CGFloat BLEBLUE = 143.0/255.0;
+#define SL_SERVICE_UUID "774763C4-0278-4722-91FC-ED1B71365BD4"
 
-@interface AppDelegate ()
+@interface AppDelegate () <PeripheralModelDelegate>
+
+@property (nonatomic, strong) PeripheralModel *peripheralModel;
+@property (nonatomic, strong) ViewController *viewController;
 
 @end
 
@@ -23,29 +25,12 @@ CGFloat BLEBLUE = 143.0/255.0;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    // Set up window
-    CGRect windowFrame = [[UIScreen mainScreen] bounds];
-    UIWindow *mainWindow = [[UIWindow alloc] initWithFrame:windowFrame];
-    [self setWindow:mainWindow];
+    self.viewController = [[ViewController alloc] init];
     
-    // Set up greeting message
-    CGFloat fontSize = 20.0;
-    CGRect greetingFrame = CGRectMake(0, ([[UIScreen mainScreen] bounds].size.height / 2.0) - (fontSize / 2.0), [[UIScreen mainScreen] bounds].size.width, fontSize);
-    greetingMessage = [[UILabel alloc] initWithFrame:greetingFrame];
-    [greetingMessage setText:@"Welcome to SureLock!"];
-    [greetingMessage setTextColor:[UIColor whiteColor]];
-    [greetingMessage setTextAlignment:NSTextAlignmentCenter];
-    [greetingMessage setFont:[UIFont systemFontOfSize:fontSize]];
-    [[self window] addSubview:greetingMessage];
-    
-    
-    // Finalize window and display
-    [[self window] setRootViewController:[[ViewController alloc] init]];
-    [[self window] setBackgroundColor:[UIColor colorWithRed:BLERED
-                                                      green:BLEGREEN
-                                                       blue:BLEBLUE
-                                                      alpha:1.0]];
-    [[self window] makeKeyAndVisible];
+    self.peripheralModel = [[PeripheralModel alloc] initWithDelegate:self];
+    self.peripheralModel.serviceName = @"SureLock";
+    self.peripheralModel.serviceUUID = [CBUUID UUIDWithString:@SL_SERVICE_UUID];
+    [self.peripheralModel startAdvertising];
     
     return YES;
 }
@@ -70,6 +55,12 @@ CGFloat BLEBLUE = 143.0/255.0;
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - PeripheralModelDelegate
+
+- (void)peripheralModel:(PeripheralModel *)peripheral centralDidAuthenticate:(CBCentral *)central {
+    [self.viewController unlock];
 }
 
 @end

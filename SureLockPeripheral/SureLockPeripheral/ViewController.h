@@ -11,6 +11,10 @@
 
 @interface ViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UILabel *lockLabel;
+
+- (void) unlock;
+- (void) lock;
 
 @end
 
