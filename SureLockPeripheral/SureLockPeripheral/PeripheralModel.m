@@ -63,7 +63,7 @@
          initWithType:self.characteristicUUID
          properties:CBCharacteristicPropertyWrite
          value:nil
-         permissions:CBAttributePermissionsWriteEncryptionRequired];
+         permissions:CBAttributePermissionsWriteable];
     
     // Assign the characteristic.
     self.service.characteristics =
@@ -211,7 +211,9 @@ didUnsubscribeFromCharacteristic:(CBCharacteristic *)characteristic {
 - (void) peripheralManager:(CBPeripheralManager *)peripheral didReceiveWriteRequests:(NSArray<CBATTRequest *> *)requests {
     
     for (int i=0; i<[requests count]; i++) {
-        if ([[requests objectAtIndex:i].value isEqual:@LOCK_PASSWORD]) {
+        NSString *guess = [[NSString alloc] initWithData:[requests objectAtIndex:i].value encoding:NSUTF8StringEncoding];
+        NSLog(@"%@", guess);
+        if ([guess isEqual:@LOCK_PASSWORD]) {
             // trigger unlock
             [self.delegate peripheralModel:self centralDidAuthenticate:[requests objectAtIndex:i].central];
             [self.peripheralManager respondToRequest:[requests objectAtIndex:i] withResult:CBATTErrorSuccess];
