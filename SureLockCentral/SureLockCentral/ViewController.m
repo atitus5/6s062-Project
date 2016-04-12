@@ -38,7 +38,7 @@ CGFloat fontSize = 20.0;
     [[self view] addSubview:greetingMessage];
     
     // Set up status message
-    CGRect statusFrame = CGRectMake(20, ([[UIScreen mainScreen] bounds].size.height * 0.75) - (fontSize / 2.0), [[UIScreen mainScreen] bounds].size.width - 40, 4 * fontSize);
+    CGRect statusFrame = CGRectMake(20, ([[UIScreen mainScreen] bounds].size.height * 0.75) - (fontSize / 2.0), [[UIScreen mainScreen] bounds].size.width - 40, 6 * fontSize);
     statusMessage = [[UILabel alloc] initWithFrame:statusFrame];
     [statusMessage setNumberOfLines:0]; // Unlimited lines
     [statusMessage setText:@"Ready to scan for peripheral locks"];
