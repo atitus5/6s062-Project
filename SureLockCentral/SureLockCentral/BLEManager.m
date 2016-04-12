@@ -83,12 +83,31 @@
             for (CBCharacteristic *c in service.characteristics) {
                 if ([[[c UUID] UUIDString] isEqualToString:@SL_CHAR_TX_UUID]) {
                     [[self delegate] bleManagerDidUpdateStatus:self
-                                                 updateMessage:[NSString stringWithFormat:@"Discovered characteristic %@. Waiting for notifications...", [[c UUID] UUIDString]]];
-                    [peripheral setNotifyValue:YES
-                             forCharacteristic:c];
+                                                 updateMessage:[NSString stringWithFormat:@"Discovered characteristic %@. Sending password...", [[c UUID] UUIDString]]];
+                    NSString *message = @"sayplease";
+                    [peripheral writeValue:[message dataUsingEncoding:NSUTF8StringEncoding]
+                         forCharacteristic:c
+                                      type:CBCharacteristicWriteWithResponse];
                 } else {
                     NSLog(@"Discovered unknown characteristic");
                 }
+            }
+        }
+    }
+}
+
+-(void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(nonnull CBCharacteristic *)characteristic error:(nullable NSError *)error {
+    if (peripheral != currentLock) {
+        NSLog(@"Attempted connection with unknown peripheral");
+    } else {
+        if (error) {
+            NSLog(@"Error writing to characteristic: %@", [error description]);
+        } else {
+            if ([[[characteristic UUID] UUIDString] isEqualToString:@SL_CHAR_TX_UUID]) {
+                [[self delegate] bleManagerDidUpdateStatus:self
+                                             updateMessage:[NSString stringWithFormat:@"Successfully wrote password to characteristic %@", [[characteristic UUID] UUIDString]]];
+            } else {
+                NSLog(@"Wrote to invalid characteristic %@", [[characteristic UUID] UUIDString]);
             }
         }
     }
