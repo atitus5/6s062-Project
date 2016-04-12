@@ -41,7 +41,9 @@
     [[self delegate] bleManagerDidUpdateStatus:self
                                  updateMessage:[NSString stringWithFormat:@"Discovered peripheral with name %@ - signal strength is %@dB. Connecting...", peripheral.name, RSSI]];
     currentLock = peripheral;
-    [cm connectPeripheral:currentLock
+    [cm cancelPeripheralConnection:peripheral];
+    [peripheral setDelegate:self];
+    [cm connectPeripheral:peripheral
                   options:nil];
 }
 
@@ -51,7 +53,8 @@
     } else {
         [[self delegate] bleManagerDidUpdateStatus:self
                                      updateMessage:[NSString stringWithFormat:@"Connected to peripheral with name %@. Discovering services...", peripheral.name]];
-        [currentLock discoverServices:[NSArray arrayWithObject:[CBUUID UUIDWithString:@SL_SERVICE_UUID]]];
+        [peripheral discoverServices:nil];
+        //[peripheral discoverServices:[NSArray arrayWithObject:[CBUUID UUIDWithString:@SL_SERVICE_UUID]]];
     }
 }
 
@@ -63,10 +66,10 @@
             if ([[[cs UUID] UUIDString] isEqualToString:@SL_SERVICE_UUID]) {
                 [[self delegate] bleManagerDidUpdateStatus:self
                                          updateMessage:[NSString stringWithFormat:@"Discovered service %@ on peripheral with name %@. Discovering characteristics...", [[cs UUID] UUIDString], peripheral.name]];
-                [currentLock discoverCharacteristics:[NSArray arrayWithObject:[CBUUID UUIDWithString:@SL_CHAR_TX_UUID]]
-                                      forService:cs];
+                [peripheral discoverCharacteristics:[NSArray arrayWithObject:[CBUUID UUIDWithString:@SL_CHAR_TX_UUID]]
+                                         forService:cs];
             } else {
-                NSLog(@"Discovered unknown service");
+                NSLog(@"Discovered unknown service with UUID %@", [[cs UUID] UUIDString]);
             }
         }
     }
@@ -80,7 +83,7 @@
             for (CBCharacteristic *c in service.characteristics) {
                 if ([[[c UUID] UUIDString] isEqualToString:@SL_CHAR_TX_UUID]) {
                     [[self delegate] bleManagerDidUpdateStatus:self
-                                                 updateMessage:[NSString stringWithFormat:@"Discovered characteristic %@ on peripheral with name %@. Waiting for notifications...", [[c UUID] UUIDString], peripheral.name]];
+                                                 updateMessage:[NSString stringWithFormat:@"Discovered characteristic %@. Waiting for notifications...", [[c UUID] UUIDString]]];
                     [peripheral setNotifyValue:YES
                              forCharacteristic:c];
                 } else {
