@@ -61,9 +61,9 @@
     self.characteristic =
         [[CBMutableCharacteristic alloc]
          initWithType:self.characteristicUUID
-         properties:CBCharacteristicPropertyNotify
+         properties:CBCharacteristicPropertyWrite
          value:nil
-         permissions:0];
+         permissions:CBAttributePermissionsWriteEncryptionRequired];
     
     // Assign the characteristic.
     self.service.characteristics =
@@ -80,18 +80,18 @@
 }
 
 
-// Called when the BTLE advertisments should start. We don't take down
+// Called when the BLE advertisments should start. We don't take down
 // the advertisments unless the user switches us off.
 - (void) startAdvertising {
     if (self.peripheralManager.isAdvertising) {
         [self.peripheralManager stopAdvertising];
     }
     
-    NSDictionary *advertisment = @{
+    NSDictionary *advertisement = @{
                                    CBAdvertisementDataServiceUUIDsKey : @[self.serviceUUID],
                                    CBAdvertisementDataLocalNameKey: self.serviceName
                                    };
-    [self.peripheralManager startAdvertising:advertisment];
+    [self.peripheralManager startAdvertising:advertisement];
 }
 
 - (void) stopAdvertising {
@@ -136,7 +136,11 @@
             didAddService:(CBService *)service
                     error:(NSError *)error {
     // As soon as the service is added, we should start advertising.
-    [self startAdvertising];
+    if (error) {
+        NSLog(@"didAddService Error: %@", error.description);
+    } else {
+        [self startAdvertising];
+    }
 }
 
 - (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral {
