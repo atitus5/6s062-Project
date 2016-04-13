@@ -49,5 +49,7 @@
 
 - (void)peripheralModel:(PeripheralModel *)peripheral centralDidAuthenticate:(CBCentral *)central;
 
+- (void)unlock;
+
 @end
 

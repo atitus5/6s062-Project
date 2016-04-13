@@ -92,6 +92,7 @@
                                    CBAdvertisementDataLocalNameKey: self.serviceName
                                    };
     [self.peripheralManager startAdvertising:advertisement];
+    [self.delegate unlock];
 }
 
 - (void) stopAdvertising {

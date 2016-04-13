@@ -28,10 +28,12 @@
 
 - (void)lock {
     self.lockLabel.text = @"Locked";
+    self.lockLabel.textColor = [UIColor redColor];
 }
 
 - (void)unlock {
     self.lockLabel.text = @"Unlocked";
+    self.lockLabel.textColor = [UIColor greenColor];
 }
 
 @end

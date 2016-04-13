@@ -26,8 +26,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    self.viewController = [[ViewController alloc] init];
-    
     self.peripheralModel = [[PeripheralModel alloc] initWithDelegate:self];
     self.peripheralModel.serviceName = @"SureLock";
     self.peripheralModel.serviceUUID = [CBUUID UUIDWithString:@SL_SERVICE_UUID];
@@ -62,7 +60,11 @@
 #pragma mark - PeripheralModelDelegate
 
 - (void)peripheralModel:(PeripheralModel *)peripheral centralDidAuthenticate:(CBCentral *)central {
-    [self.viewController unlock];
+    [(ViewController *)self.window.rootViewController unlock];
+}
+
+- (void) unlock {
+    // [(ViewController *)self.window.rootViewController unlock];
 }
 
 @end
