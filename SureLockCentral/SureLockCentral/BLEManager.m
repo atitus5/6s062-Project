@@ -12,6 +12,7 @@
 
 @synthesize delegate;
 @synthesize currentLock;
+@synthesize currentRSSI;
 
 - (id)initWithDelegate:(id)d {
     self = [super init];
@@ -47,19 +48,15 @@
                                  updateMessage:[NSString stringWithFormat:@"Discovered peripheral with name %@ - signal strength is %@dB. Connecting...", peripheral.name, RSSI]];
     [cm cancelPeripheralConnection:peripheral];
     [peripheral setDelegate:self];
-    [self setCurrentLock:peripheral];
     [cm connectPeripheral:peripheral
                   options:nil];
 }
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
-    if (peripheral != currentLock) {
-        NSLog(@"Attempted connection with unknown peripheral");
-    } else {
-        [[self delegate] bleManagerDidUpdateStatus:self
-                                     updateMessage:[NSString stringWithFormat:@"Connected to peripheral with name %@. Discovering services...", peripheral.name]];
-        [peripheral discoverServices:[NSArray arrayWithObject:[CBUUID UUIDWithString:@SL_SERVICE_UUID]]];
-    }
+    [self setCurrentLock:peripheral];
+    [[self delegate] bleManagerDidUpdateStatus:self
+                                 updateMessage:[NSString stringWithFormat:@"Connected to peripheral with name %@. Discovering services...", peripheral.name]];
+    [peripheral discoverServices:[NSArray arrayWithObject:[CBUUID UUIDWithString:@SL_SERVICE_UUID]]];
 }
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
@@ -84,6 +81,14 @@
                 NSLog(@"Discovered unknown service with UUID %@", [[cs UUID] UUIDString]);
             }
         }
+    }
+}
+
+-(void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error {
+    if (error) {
+        NSLog(@"Error while reading RSSI: %@", [error localizedDescription]);
+    } else {
+        [self setCurrentRSSI:RSSI];
     }
 }
 

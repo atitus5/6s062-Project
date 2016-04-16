@@ -8,44 +8,75 @@
 
 #import "SLLogger.h"
 
+@import CoreMotion;
+
 @implementation SLLogger {
-    CBPeripheral *currentPeripheral;
     NSFileHandle *logFile;
+    CMMotionManager *motionManager;
+    CMDeviceMotionHandler motionHandler;
+    BLEManager *currentManager;
 }
 
 @synthesize unlockRequested;
 @synthesize logging;
 
-- (id)initWithLogFile:(NSFileHandle *)lf peripheral:(CBPeripheral *)p {
+- (id)initWithLogFile:(NSFileHandle *)lf manager:(BLEManager *)m {
     self = [super init];
     
     if (self) {
-        // Set log file and current peripheral
+        // Set log file
         logFile = lf;
-        currentPeripheral = p;
+        currentManager = m;
         
         [self setUnlockRequested:NO];
         [self setLogging:NO];
+        
+        motionManager = [[CMMotionManager alloc] init];
+        [motionManager setDeviceMotionUpdateInterval:SAMPLE_INTERVAL];
+        
+        __weak typeof(self) weakSelf = self; // Create weak reference to self to prevent retain cycle
+        motionHandler = ^(CMDeviceMotion * _Nullable motion, NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"Error handling motion: %@", [error localizedDescription]);
+            } else {
+                [weakSelf logEntry:motion];
+            }
+        };
     }
     
     return self;
 }
 
 - (void)startLogging {
-    // TODO: periodic logging
     [self setLogging:YES];
+    
     NSLog(@"Log started");
+    [self logLineToDataFile:@"Time,Acc_X,Acc_Y,Acc_Z,RSSI,Unlock Requested\n"];
+    
+    [motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryCorrectedZVertical
+                                                       toQueue:[NSOperationQueue mainQueue]
+                                                   withHandler:motionHandler];
+    
     return;
 }
 
 - (void)stopLogging {
-    // TODO: stop periodic logging
     [self setLogging:NO];
     NSLog(@"Log ended");
+    [motionManager stopDeviceMotionUpdates];
     return;
 }
 
--(void)logLineToDataFile:(NSString *)line {
+- (void)logEntry:(CMDeviceMotion *)motion {
+    // Must have a connected peripheral
+    if (currentManager) {
+        [[currentManager currentLock] readRSSI]; // Request new RSSI estimate
+        double currentRSSIEstimate = [[currentManager currentRSSI] doubleValue];
+        [self logLineToDataFile:[NSString stringWithFormat:@"%f,%f,%f,%f,%f,%d\n", [motion timestamp], [motion userAcceleration].x, [motion userAcceleration].y, [motion userAcceleration].z, currentRSSIEstimate, [self isUnlockRequested]]];
+    }
+}
+
+- (void)logLineToDataFile:(NSString *)line {
     [logFile writeData:[line dataUsingEncoding:NSUTF8StringEncoding]];
 }
 

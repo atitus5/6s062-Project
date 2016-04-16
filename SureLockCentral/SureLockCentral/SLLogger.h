@@ -7,13 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BLEManager.h"
 
-@import CoreBluetooth;
+#define SAMPLE_INTERVAL 0.1
 
 @interface SLLogger : NSObject
 
 // The designated initializer
-- (id)initWithLogFile:(NSFileHandle *)lf peripheral:(CBPeripheral *)p;
+- (id)initWithLogFile:(NSFileHandle *)lf manager:(BLEManager *)m;
 
 - (void)startLogging;
 - (void)stopLogging;

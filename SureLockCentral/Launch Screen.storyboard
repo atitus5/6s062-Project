@@ -18,10 +18,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="obG-Y5-kRd">
-                                <rect key="frame" x="60" y="540" width="480" height="40"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="obG-Y5-kRd">
+                                <rect key="frame" x="60" y="520" width="480" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="7UR-wH-T9W"/>
+                                    <constraint firstAttribute="height" constant="60" id="7UR-wH-T9W"/>
                                 </constraints>
                                 <string key="text" base64-UTF8="YES">
 SWNvbnMgbWFkZSBieSBGcmVlcGlrIGZyb20gd3d3LmZsYXRpY29uLmNvbS4RDUxpY2Vuc2VkIGJ5IEND
@@ -32,7 +32,7 @@ IDMuMCBCWS4
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="qhw-ND-cxQ">
-                                <rect key="frame" x="120" y="100" width="360" height="360"/>
+                                <rect key="frame" x="130" y="100" width="340" height="340"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="qhw-ND-cxQ" secondAttribute="height" multiplier="1:1" id="jRC-Jo-2z6"/>
                                 </constraints>

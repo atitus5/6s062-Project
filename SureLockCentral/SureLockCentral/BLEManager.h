@@ -26,6 +26,7 @@
 
 @property (nonatomic, weak) id<BLEManagerDelegate> delegate;
 @property (atomic, strong) CBPeripheral *currentLock;
+@property (nonatomic, weak) NSNumber *currentRSSI;
 
 // The designated initializer
 - (id)initWithDelegate:(id)d;

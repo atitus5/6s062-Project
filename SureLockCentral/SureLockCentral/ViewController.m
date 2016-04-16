@@ -57,7 +57,7 @@
     CGRect unlockRequestFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width / 2.0 - (buttonWidth / 2.0) - padding, [[UIScreen mainScreen] bounds].size.height * 0.4 - (fontSize / 2.0) - padding, buttonWidth + 2.0 * padding, fontSize + 2.0 * padding);
     unlockRequestButton = [[UIButton alloc] initWithFrame:unlockRequestFrame];
     [unlockRequestButton setBackgroundColor:[UIColor whiteColor]];
-    [unlockRequestButton setTitle:@"Request Unlock"
+    [unlockRequestButton setTitle:@"Request unlock"
                          forState:UIControlStateNormal];
     [unlockRequestButton setTitleColor:[UIColor redColor]
                               forState:UIControlStateNormal];
@@ -130,8 +130,7 @@ int logCount = 1;   // Track number of log files written
         [self emailLogFile];
     } else {
         [self resetLogFile];
-        currentLogger = [[SLLogger alloc] initWithLogFile:logFile
-                                               peripheral:[manager currentLock]];
+        currentLogger = [[SLLogger alloc] initWithLogFile:logFile manager:manager];
         [currentLogger startLogging];
         [unlockRequestButton setEnabled:YES]; // Enable unlock requests
         
@@ -190,10 +189,10 @@ int logCount = 1;   // Track number of log files written
     }
     NSData *fileData = [NSData dataWithContentsOfFile:[self getPathToLogFile]];
     
-    NSLog(@"%@", fileData);
-    
-    if (!fileData || [fileData length] == 0)
+    if (!fileData || [fileData length] == 0) {
+        NSLog(@"No data in log");
         return;
+    }
     NSString *emailTitle = [NSString stringWithFormat:@"Log File %d", logCount];
     NSString *messageBody = @"Data from SureLock Central";
     
