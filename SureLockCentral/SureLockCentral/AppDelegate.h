@@ -7,6 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViewController.h"
+
+extern const CGFloat BLERED;
+extern const CGFloat BLEGREEN;
+extern const CGFloat BLEBLUE;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

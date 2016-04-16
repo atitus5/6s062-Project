@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AE1127091CB3376600F9C77F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1127081CB3376600F9C77F /* main.m */; };
-		AE11270C1CB3376600F9C77F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AE11270B1CB3376600F9C77F /* AppDelegate.m */; };
-		AE11270F1CB3376600F9C77F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE11270E1CB3376600F9C77F /* ViewController.m */; };
 		AE1127141CB3376700F9C77F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE1127131CB3376700F9C77F /* Assets.xcassets */; };
 		AEADE4021CB9BF940082F6B0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEADE4011CB9BF940082F6B0 /* Launch Screen.storyboard */; };
+		AEB9AF991CC2CE3B00CDC623 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AE11270B1CB3376600F9C77F /* AppDelegate.m */; };
+		AEB9AF9A1CC2CE3B00CDC623 /* BLEManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEB6FC81CB9CEDD009A2289 /* BLEManager.m */; };
+		AEB9AF9B1CC2CE3C00CDC623 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE11270E1CB3376600F9C77F /* ViewController.m */; };
+		AEB9AF9C1CC2CE3C00CDC623 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1127081CB3376600F9C77F /* main.m */; };
+		AEB9AF9F1CC2E73F00CDC623 /* SLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = AEB9AF9E1CC2E73F00CDC623 /* SLLogger.m */; };
+		AEB9AFA11CC2EE9200CDC623 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEB9AFA01CC2EE9200CDC623 /* MessageUI.framework */; };
 		AEEB6FC61CB9CE29009A2289 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEEB6FC51CB9CE29009A2289 /* CoreBluetooth.framework */; };
-		AEEB6FC91CB9CEDD009A2289 /* BLEManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEB6FC81CB9CEDD009A2289 /* BLEManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,9 @@
 		AE1127131CB3376700F9C77F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AE1127181CB3376700F9C77F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AEADE4011CB9BF940082F6B0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "../Launch Screen.storyboard"; sourceTree = "<group>"; };
+		AEB9AF9D1CC2E73F00CDC623 /* SLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLLogger.h; sourceTree = "<group>"; };
+		AEB9AF9E1CC2E73F00CDC623 /* SLLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLLogger.m; sourceTree = "<group>"; };
+		AEB9AFA01CC2EE9200CDC623 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		AEEB6FC51CB9CE29009A2289 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		AEEB6FC71CB9CEDD009A2289 /* BLEManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEManager.h; sourceTree = "<group>"; };
 		AEEB6FC81CB9CEDD009A2289 /* BLEManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEManager.m; sourceTree = "<group>"; };
@@ -36,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEB9AFA11CC2EE9200CDC623 /* MessageUI.framework in Frameworks */,
 				AEEB6FC61CB9CE29009A2289 /* CoreBluetooth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -46,6 +52,7 @@
 		AE1126FB1CB3376400F9C77F = {
 			isa = PBXGroup;
 			children = (
+				AEB9AFA01CC2EE9200CDC623 /* MessageUI.framework */,
 				AEEB6FC51CB9CE29009A2289 /* CoreBluetooth.framework */,
 				AE1127061CB3376600F9C77F /* SureLockCentral */,
 				AE1127051CB3376500F9C77F /* Products */,
@@ -67,6 +74,8 @@
 				AE11270B1CB3376600F9C77F /* AppDelegate.m */,
 				AEEB6FC71CB9CEDD009A2289 /* BLEManager.h */,
 				AEEB6FC81CB9CEDD009A2289 /* BLEManager.m */,
+				AEB9AF9D1CC2E73F00CDC623 /* SLLogger.h */,
+				AEB9AF9E1CC2E73F00CDC623 /* SLLogger.m */,
 				AE11270D1CB3376600F9C77F /* ViewController.h */,
 				AE11270E1CB3376600F9C77F /* ViewController.m */,
 				AE1127131CB3376700F9C77F /* Assets.xcassets */,
@@ -160,10 +169,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE11270F1CB3376600F9C77F /* ViewController.m in Sources */,
-				AEEB6FC91CB9CEDD009A2289 /* BLEManager.m in Sources */,
-				AE11270C1CB3376600F9C77F /* AppDelegate.m in Sources */,
-				AE1127091CB3376600F9C77F /* main.m in Sources */,
+				AEB9AF991CC2CE3B00CDC623 /* AppDelegate.m in Sources */,
+				AEB9AF9A1CC2CE3B00CDC623 /* BLEManager.m in Sources */,
+				AEB9AF9B1CC2CE3C00CDC623 /* ViewController.m in Sources */,
+				AEB9AF9C1CC2CE3C00CDC623 /* main.m in Sources */,
+				AEB9AF9F1CC2E73F00CDC623 /* SLLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
