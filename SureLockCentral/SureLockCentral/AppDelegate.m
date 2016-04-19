@@ -7,17 +7,16 @@
 //
 
 #import "AppDelegate.h"
-#import "ViewController.h"
-
-CGFloat BLERED = 11.0/255.0;
-CGFloat BLEGREEN = 74.0/255.0;
-CGFloat BLEBLUE = 143.0/255.0;
 
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
+
+const CGFloat BLERED = 11.0/255.0;
+const CGFloat BLEGREEN = 74.0/255.0;
+const CGFloat BLEBLUE = 143.0/255.0;
 
     
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

@@ -10,12 +10,16 @@
 
 @implementation BLEManager
 
-- (id)initWithDelegate:(id)delegate {
+@synthesize delegate;
+@synthesize currentLock;
+@synthesize currentRSSI;
+
+- (id)initWithDelegate:(id)d {
     self = [super init];
     
     if (self) {
         // Set delegate
-        [self setDelegate:delegate];
+        [self setDelegate:d];
         
         // Add option to tell user to enable Bluetooth
         NSDictionary *cmOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
@@ -27,6 +31,8 @@
     
     return self;
 }
+
+#pragma mark - CBCentralManagerDelegate methods -
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
     if ([central state] == CBCentralManagerStatePoweredOn) {
@@ -40,7 +46,6 @@
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI {
     [[self delegate] bleManagerDidUpdateStatus:self
                                  updateMessage:[NSString stringWithFormat:@"Discovered peripheral with name %@ - signal strength is %@dB. Connecting...", peripheral.name, RSSI]];
-    currentLock = peripheral;
     [cm cancelPeripheralConnection:peripheral];
     [peripheral setDelegate:self];
     [cm connectPeripheral:peripheral
@@ -48,15 +53,19 @@
 }
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
-    if (peripheral != currentLock) {
-        NSLog(@"Attempted connection with unknown peripheral");
-    } else {
-        [[self delegate] bleManagerDidUpdateStatus:self
-                                     updateMessage:[NSString stringWithFormat:@"Connected to peripheral with name %@. Discovering services...", peripheral.name]];
-        [peripheral discoverServices:nil];
-        //[peripheral discoverServices:[NSArray arrayWithObject:[CBUUID UUIDWithString:@SL_SERVICE_UUID]]];
-    }
+    [self setCurrentLock:peripheral];
+    [[self delegate] bleManagerDidUpdateStatus:self
+                                 updateMessage:[NSString stringWithFormat:@"Connected to peripheral with name %@. Discovering services...", peripheral.name]];
+    [peripheral discoverServices:[NSArray arrayWithObject:[CBUUID UUIDWithString:@SL_SERVICE_UUID]]];
 }
+
+- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
+    [[self delegate] bleManagerDidUpdateStatus:self
+                                 updateMessage:[NSString stringWithFormat:@"Disconnected from peripheral with name %@ - scanning for peripherals...", currentLock.name]];
+    [self setCurrentLock:nil];
+}
+
+#pragma mark - CBPeripheralDelegate Methods -
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
     if (peripheral != currentLock) {
@@ -75,6 +84,14 @@
     }
 }
 
+-(void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error {
+    if (error) {
+        NSLog(@"Error while reading RSSI: %@", [error localizedDescription]);
+    } else {
+        [self setCurrentRSSI:RSSI];
+    }
+}
+
 -(void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(nonnull CBService *)service error:(nullable NSError *)error {
     if (peripheral != currentLock) {
         NSLog(@"Attempted connection with unknown peripheral");
@@ -84,8 +101,8 @@
                 if ([[[c UUID] UUIDString] isEqualToString:@SL_CHAR_TX_UUID]) {
                     [[self delegate] bleManagerDidUpdateStatus:self
                                                  updateMessage:[NSString stringWithFormat:@"Discovered characteristic %@. Sending password...", [[c UUID] UUIDString]]];
-                    NSString *message = @"sayplease";
-                    [peripheral writeValue:[message dataUsingEncoding:NSUTF8StringEncoding]
+                    NSString *password = @"sayplease";
+                    [peripheral writeValue:[password dataUsingEncoding:NSUTF8StringEncoding]
                          forCharacteristic:c
                                       type:CBCharacteristicWriteWithResponse];
                 } else {
