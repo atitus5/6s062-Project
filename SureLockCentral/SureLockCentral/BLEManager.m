@@ -46,6 +46,7 @@
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI {
     [[self delegate] bleManagerDidUpdateStatus:self
                                  updateMessage:[NSString stringWithFormat:@"Discovered peripheral with name %@ - signal strength is %@dB. Connecting...", peripheral.name, RSSI]];
+    [self setCurrentLock:peripheral];
     [cm cancelPeripheralConnection:peripheral];
     [peripheral setDelegate:self];
     [cm connectPeripheral:peripheral
@@ -53,7 +54,6 @@
 }
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
-    [self setCurrentLock:peripheral];
     [[self delegate] bleManagerDidUpdateStatus:self
                                  updateMessage:[NSString stringWithFormat:@"Connected to peripheral with name %@. Discovering services...", peripheral.name]];
     [peripheral discoverServices:[NSArray arrayWithObject:[CBUUID UUIDWithString:@SL_SERVICE_UUID]]];
