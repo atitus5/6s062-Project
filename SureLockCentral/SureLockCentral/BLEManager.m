@@ -63,6 +63,8 @@
     [[self delegate] bleManagerDidUpdateStatus:self
                                  updateMessage:[NSString stringWithFormat:@"Disconnected from peripheral with name %@ - scanning for peripherals...", currentLock.name]];
     [self setCurrentLock:nil];
+    [central scanForPeripheralsWithServices:[NSArray arrayWithObject:[CBUUID UUIDWithString:@SL_SERVICE_UUID]]
+                                    options:nil];
 }
 
 #pragma mark - CBPeripheralDelegate Methods -
