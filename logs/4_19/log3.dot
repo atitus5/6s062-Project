@@ -6,10 +6,10 @@ digraph Tree {
 1 -> 2 ;
 3 [label="gini = 0.2421\nsamples = 958\nvalue = [ 823.  135.]", shape="box"] ;
 1 -> 3 ;
-4 [label="Acceleration Magnitude <= -0.0659\ngini = 0.359389348026\nsamples = 132", shape="box"] ;
+4 [label="Acceleration Magnitude <= 0.0674\ngini = 0.359389348026\nsamples = 132", shape="box"] ;
 0 -> 4 ;
-5 [label="gini = 0.3418\nsamples = 32\nvalue = [ 25.   7.]", shape="box"] ;
+5 [label="gini = 0.0799\nsamples = 72\nvalue = [  3.  69.]", shape="box"] ;
 4 -> 5 ;
-6 [label="gini = 0.1128\nsamples = 100\nvalue = [  6.  94.]", shape="box"] ;
+6 [label="gini = 0.4978\nsamples = 60\nvalue = [ 28.  32.]", shape="box"] ;
 4 -> 6 ;
 }
