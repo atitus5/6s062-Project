@@ -1,12 +1,12 @@
 digraph Tree {
-0 [label="X[1] <= -61.5000\ngini = 0.0691942711486\nsamples = 7747", shape="box"] ;
-1 [label="X[1] <= -70.5000\ngini = 0.0404496678719\nsamples = 7554", shape="box"] ;
+0 [label="RSSI <= -61.5000\ngini = 0.0691942711486\nsamples = 7747", shape="box"] ;
+1 [label="RSSI <= -70.5000\ngini = 0.0404496678719\nsamples = 7554", shape="box"] ;
 0 -> 1 ;
 2 [label="gini = 0.0092\nsamples = 6677\nvalue = [ 6646.    31.]", shape="box"] ;
 1 -> 2 ;
 3 [label="gini = 0.2444\nsamples = 877\nvalue = [ 752.  125.]", shape="box"] ;
 1 -> 3 ;
-4 [label="X[0] <= -0.0687\ngini = 0.465086311042\nsamples = 193", shape="box"] ;
+4 [label="Acceleration Magnitude <= -0.0687\ngini = 0.465086311042\nsamples = 193", shape="box"] ;
 0 -> 4 ;
 5 [label="gini = 0.3856\nsamples = 46\nvalue = [ 34.  12.]", shape="box"] ;
 4 -> 5 ;
