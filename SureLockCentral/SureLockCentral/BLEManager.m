@@ -8,11 +8,10 @@
 
 #import "BLEManager.h"
 
-@implementation BLEManager
-
-@synthesize delegate;
-@synthesize currentLock;
-@synthesize currentRSSI;
+@implementation BLEManager {
+    CMMotionManager *accelManager;
+    CMDeviceMotionHandler accelHandler;
+}
 
 - (id)initWithDelegate:(id)d {
     self = [super init];
@@ -27,6 +26,20 @@
         cm = [[CBCentralManager alloc] initWithDelegate:self
                                                   queue:nil
                                                 options:cmOptions];
+        
+        // Set up CoreMotion manager
+        accelManager = [[CMMotionManager alloc] init];
+        [accelManager setDeviceMotionUpdateInterval:UPDATE_INTERVAL];
+        
+        __weak typeof(self) weakSelf = self; // Create weak reference to self to prevent retain cycle
+        accelHandler = ^(CMDeviceMotion * _Nullable motion, NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"Error handling motion: %@", [error localizedDescription]);
+            } else {
+                [weakSelf evalAccel:motion];
+            }
+        };
+
     }
     
     return self;
@@ -56,12 +69,13 @@
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     [[self delegate] bleManagerDidUpdateStatus:self
                                  updateMessage:[NSString stringWithFormat:@"Connected to peripheral with name %@. Discovering services...", peripheral.name]];
+    [peripheral readRSSI]; // Request new RSSI estimate
     [peripheral discoverServices:[NSArray arrayWithObject:[CBUUID UUIDWithString:@SL_SERVICE_UUID]]];
 }
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     [[self delegate] bleManagerDidUpdateStatus:self
-                                 updateMessage:[NSString stringWithFormat:@"Disconnected from peripheral with name %@ - scanning for peripherals...", currentLock.name]];
+                                 updateMessage:[NSString stringWithFormat:@"Disconnected from peripheral with name %@ - scanning for peripherals...", [self currentLock].name]];
     [self setCurrentLock:nil];
     [central scanForPeripheralsWithServices:[NSArray arrayWithObject:[CBUUID UUIDWithString:@SL_SERVICE_UUID]]
                                     options:nil];
@@ -70,7 +84,7 @@
 #pragma mark - CBPeripheralDelegate Methods -
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
-    if (peripheral != currentLock) {
+    if (peripheral != [self currentLock]) {
         NSLog(@"Attempted connection with unknown peripheral");
     } else {
         for (CBService *cs in [peripheral services]) {
@@ -95,18 +109,19 @@
 }
 
 -(void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(nonnull CBService *)service error:(nullable NSError *)error {
-    if (peripheral != currentLock) {
+    if (peripheral != [self currentLock]) {
         NSLog(@"Attempted connection with unknown peripheral");
     } else {
         if ([[[service UUID] UUIDString] isEqualToString:@SL_SERVICE_UUID]) {
             for (CBCharacteristic *c in service.characteristics) {
                 if ([[[c UUID] UUIDString] isEqualToString:@SL_CHAR_TX_UUID]) {
                     [[self delegate] bleManagerDidUpdateStatus:self
-                                                 updateMessage:[NSString stringWithFormat:@"Discovered characteristic %@. Sending password...", [[c UUID] UUIDString]]];
-                    NSString *password = @"sayplease";
-                    [peripheral writeValue:[password dataUsingEncoding:NSUTF8StringEncoding]
-                         forCharacteristic:c
-                                      type:CBCharacteristicWriteWithResponse];
+                                                 updateMessage:[NSString stringWithFormat:@"Discovered characteristic %@. Sending password once ready...", [[c UUID] UUIDString]]];
+                    [self setCurrentCharacteristic:c];
+                    [accelManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryCorrectedZVertical
+                                                                      toQueue:[NSOperationQueue mainQueue]
+                                                                  withHandler:accelHandler];
+                    
                 } else {
                     NSLog(@"Discovered unknown characteristic");
                 }
@@ -116,7 +131,7 @@
 }
 
 -(void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(nonnull CBCharacteristic *)characteristic error:(nullable NSError *)error {
-    if (peripheral != currentLock) {
+    if (peripheral != [self currentLock]) {
         NSLog(@"Attempted connection with unknown peripheral");
     } else {
         if (error) {
@@ -130,6 +145,21 @@
             }
         }
     }
+}
+
+-(void)evalAccel: (CMDeviceMotion *)motion {
+    // Check if signal strong enough (i.e. close enough to peripheral)
+    if ([[self currentRSSI] doubleValue] >= RSSI_THRESHOLD) {
+        float accelMag = sqrt(pow([motion userAcceleration].x, 2.0) + pow([motion userAcceleration].y, 2.0) + pow([motion userAcceleration].z, 2.0));
+        if (accelMag <= ACCEL_MAG_THRESHOLD) {
+            NSString *password = @"sayplease";
+            [[self currentLock] writeValue:[password dataUsingEncoding:NSUTF8StringEncoding]
+                 forCharacteristic:[self currentCharacteristic]
+                              type:CBCharacteristicWriteWithResponse];
+            [accelManager stopDeviceMotionUpdates];
+        }
+    }
+    [[self currentLock] readRSSI]; // Request new RSSI estimate
 }
 
 @end
