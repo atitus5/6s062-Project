@@ -79,6 +79,17 @@
                        action:@selector(loggingStateChanged:)
              forControlEvents:UIControlEventTouchUpInside];
     [[self view] addSubview:startLogButton];
+#else
+    // Set up update message
+    CGFloat updateHeight = 6.0 * fontSize;
+    CGRect updateFrame = CGRectMake(padding, ([[UIScreen mainScreen] bounds].size.height * 0.5) - (updateHeight / 2.0), [[UIScreen mainScreen] bounds].size.width - 2.0 * padding, updateHeight);
+    updateMessage = [[UILabel alloc] initWithFrame:updateFrame];
+    [updateMessage setNumberOfLines:0]; // Unlimited lines
+    [updateMessage setText:@"Waiting for feature update..."];
+    [updateMessage setTextColor:[UIColor whiteColor]];
+    [updateMessage setTextAlignment:NSTextAlignmentCenter];
+    [updateMessage setFont:[UIFont systemFontOfSize:fontSize]];
+    [[self view] addSubview:updateMessage];
 #endif
 }
 
@@ -249,6 +260,10 @@ int logCount = 1;   // Track number of log files written
 
 - (void)bleManagerDidUpdateStatus:(BLEManager *)manager updateMessage:(NSString *)msg {
     [statusMessage setText:msg];
+}
+
+- (void)bleManagerDidReceiveUpdate:(BLEManager *)manager updateMessage:(NSString *)msg {
+    [updateMessage setText:msg];
 }
 
 @end

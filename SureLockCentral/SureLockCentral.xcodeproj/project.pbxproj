@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AE1127141CB3376700F9C77F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE1127131CB3376700F9C77F /* Assets.xcassets */; };
 		AEADE4021CB9BF940082F6B0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEADE4011CB9BF940082F6B0 /* Launch Screen.storyboard */; };
+		AEB4B35D1CCE702500E607C7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEB4B35C1CCE702500E607C7 /* CoreLocation.framework */; };
 		AEB9AF991CC2CE3B00CDC623 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AE11270B1CB3376600F9C77F /* AppDelegate.m */; };
 		AEB9AF9A1CC2CE3B00CDC623 /* BLEManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEB6FC81CB9CEDD009A2289 /* BLEManager.m */; };
 		AEB9AF9B1CC2CE3C00CDC623 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE11270E1CB3376600F9C77F /* ViewController.m */; };
@@ -29,6 +30,7 @@
 		AE1127131CB3376700F9C77F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AE1127181CB3376700F9C77F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AEADE4011CB9BF940082F6B0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "../Launch Screen.storyboard"; sourceTree = "<group>"; };
+		AEB4B35C1CCE702500E607C7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		AEB9AF9D1CC2E73F00CDC623 /* SLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLLogger.h; sourceTree = "<group>"; };
 		AEB9AF9E1CC2E73F00CDC623 /* SLLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLLogger.m; sourceTree = "<group>"; };
 		AEB9AFA01CC2EE9200CDC623 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -43,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEB4B35D1CCE702500E607C7 /* CoreLocation.framework in Frameworks */,
 				AEB9AFA31CC2FDD500CDC623 /* CoreMotion.framework in Frameworks */,
 				AEB9AFA11CC2EE9200CDC623 /* MessageUI.framework in Frameworks */,
 				AEEB6FC61CB9CE29009A2289 /* CoreBluetooth.framework in Frameworks */,
@@ -55,6 +58,7 @@
 		AE1126FB1CB3376400F9C77F = {
 			isa = PBXGroup;
 			children = (
+				AEB4B35C1CCE702500E607C7 /* CoreLocation.framework */,
 				AEB9AFA21CC2FDD500CDC623 /* CoreMotion.framework */,
 				AEB9AFA01CC2EE9200CDC623 /* MessageUI.framework */,
 				AEEB6FC51CB9CE29009A2289 /* CoreBluetooth.framework */,

@@ -20,12 +20,19 @@
         // Set delegate
         [self setDelegate:d];
         
+        // Set up CoreBluetooth manager
+        
         // Add option to tell user to enable Bluetooth
         NSDictionary *cmOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
                                                               forKey:CBCentralManagerOptionShowPowerAlertKey];
         cm = [[CBCentralManager alloc] initWithDelegate:self
                                                   queue:nil
                                                 options:cmOptions];
+        
+        // Set up CoreLocation manager (to enable background motion updates)
+        lm = [[CLLocationManager alloc] init];
+        [lm requestAlwaysAuthorization];        // Always run in background
+        [lm setDesiredAccuracy:kCLLocationAccuracyThreeKilometers]; // No accuracy necessary
         
         // Set up CoreMotion manager
         accelManager = [[CMMotionManager alloc] init];
@@ -70,6 +77,7 @@
     [[self delegate] bleManagerDidUpdateStatus:self
                                  updateMessage:[NSString stringWithFormat:@"Connected to peripheral with name %@. Discovering services...", peripheral.name]];
     [peripheral readRSSI]; // Request new RSSI estimate
+    [lm startUpdatingLocation]; // Start monitoring location to enable background motion updates
     [peripheral discoverServices:[NSArray arrayWithObject:[CBUUID UUIDWithString:@SL_SERVICE_UUID]]];
 }
 
@@ -77,6 +85,10 @@
     [[self delegate] bleManagerDidUpdateStatus:self
                                  updateMessage:[NSString stringWithFormat:@"Disconnected from peripheral with name %@ - scanning for peripherals...", [self currentLock].name]];
     [self setCurrentLock:nil];
+    [self setCurrentRSSI:@INT_MIN];  // Clear stale estimate
+    [lm stopUpdatingLocation];  // Stop background motion updates
+    [[self delegate] bleManagerDidReceiveUpdate:self
+                                  updateMessage:@"Waiting for feature update..."];
     [central scanForPeripheralsWithServices:[NSArray arrayWithObject:[CBUUID UUIDWithString:@SL_SERVICE_UUID]]
                                     options:nil];
 }
@@ -149,8 +161,12 @@
 
 -(void)evalAccel: (CMDeviceMotion *)motion {
     // Check if signal strong enough (i.e. close enough to peripheral)
+    double accelMag = sqrt(pow([motion userAcceleration].x, 2.0) + pow([motion userAcceleration].y, 2.0) + pow([motion userAcceleration].z, 2.0));
+    
+    [[self delegate] bleManagerDidReceiveUpdate:self
+                                  updateMessage:[NSString stringWithFormat:@"RSSI: %.1f\nAcc. Mag.: %.3f", [[self currentRSSI] doubleValue], accelMag]];
+    
     if ([[self currentRSSI] doubleValue] >= RSSI_THRESHOLD) {
-        float accelMag = sqrt(pow([motion userAcceleration].x, 2.0) + pow([motion userAcceleration].y, 2.0) + pow([motion userAcceleration].z, 2.0));
         if (accelMag <= ACCEL_MAG_THRESHOLD) {
             NSString *password = @"sayplease";
             [[self currentLock] writeValue:[password dataUsingEncoding:NSUTF8StringEncoding]

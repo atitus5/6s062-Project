@@ -13,7 +13,7 @@
 #import "SLLogger.h"
 
 @interface ViewController : UIViewController <BLEManagerDelegate, MFMailComposeViewControllerDelegate> {
-    UILabel *greetingMessage, *statusMessage;
+    UILabel *greetingMessage, *statusMessage, *updateMessage;
     UIButton *unlockRequestButton, *startLogButton;
     SLLogger *logger;
 }
