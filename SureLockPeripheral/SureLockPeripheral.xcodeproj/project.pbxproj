@@ -118,7 +118,7 @@
 						DevelopmentTeam = MA8CTR2VLX;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};

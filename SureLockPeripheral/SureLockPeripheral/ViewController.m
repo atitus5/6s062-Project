@@ -26,14 +26,15 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)lock {
+- (void)lockPeripheral {
+    NSLog(@"SHIT FINISHED");
     self.lockLabel.text = @"Locked";
-    self.lockLabel.textColor = [UIColor redColor];
+    [[self view] setBackgroundColor:[UIColor redColor]];
 }
 
-- (void)unlock {
+- (void)unlockPeripheral {
     self.lockLabel.text = @"Unlocked";
-    self.lockLabel.textColor = [UIColor greenColor];
+    [[self view] setBackgroundColor:[UIColor greenColor]];
 }
 
 @end

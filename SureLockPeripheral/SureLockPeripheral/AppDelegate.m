@@ -7,20 +7,16 @@
 //
 
 #import "AppDelegate.h"
-#import "PeripheralModel.h"
-#import "ViewController.h"
 
 #define SL_SERVICE_UUID "774763C4-0278-4722-91FC-ED1B71365BD4"
 #define SL_CHAR_TX_UUID "55F34A89-B450-48CF-9C14-6BE729856ABF"
 
-@interface AppDelegate () <PeripheralModelDelegate>
-
-@property (nonatomic, strong) PeripheralModel *peripheralModel;
-@property (nonatomic, strong) ViewController *viewController;
-
+@interface AppDelegate ()
 @end
 
-@implementation AppDelegate
+@implementation AppDelegate {
+    NSTimer *relockTimer;
+}
 
     
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -60,11 +56,19 @@
 #pragma mark - PeripheralModelDelegate
 
 - (void)peripheralModel:(PeripheralModel *)peripheral centralDidAuthenticate:(CBCentral *)central {
-    [(ViewController *)self.window.rootViewController unlock];
+    [(ViewController *)self.window.rootViewController unlockPeripheral];
+    
+    [relockTimer invalidate]; // Stop current timer
+    relockTimer = nil;  // Clear timer
+    relockTimer = [NSTimer scheduledTimerWithTimeInterval:RELOCK_INTERVAL
+                                                   target:self
+                                                 selector:@selector(lockPeripheral:)
+                                                 userInfo:nil
+                                                  repeats:NO];
 }
 
-- (void) unlock {
-    // [(ViewController *)self.window.rootViewController unlock];
+- (void)lockPeripheral:(NSTimer *)timer {
+    [(ViewController *)self.window.rootViewController lockPeripheral];
 }
 
 @end

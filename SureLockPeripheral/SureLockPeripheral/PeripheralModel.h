@@ -41,15 +41,6 @@
 
 // Simplified protocol to respond to subscribers.
 @protocol PeripheralModelDelegate <NSObject>
-
-// Called when the peripheral receives a new subscriber.
-- (void)peripheralModel:(PeripheralModel *)peripheral centralDidSubscribe:(CBCentral *)central;
-
-- (void)peripheralModel:(PeripheralModel *)peripheral centralDidUnsubscribe:(CBCentral *)central;
-
 - (void)peripheralModel:(PeripheralModel *)peripheral centralDidAuthenticate:(CBCentral *)central;
-
-- (void)unlock;
-
 @end
 

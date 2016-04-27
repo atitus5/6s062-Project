@@ -13,7 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *lockLabel;
 
-- (void) lock;
-- (void) unlock; 
+- (void) lockPeripheral;
+- (void) unlockPeripheral;
 
 @end

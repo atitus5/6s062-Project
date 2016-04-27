@@ -92,7 +92,6 @@
                                    CBAdvertisementDataLocalNameKey: self.serviceName
                                    };
     [self.peripheralManager startAdvertising:advertisement];
-    [self.delegate unlock];
 }
 
 - (void) stopAdvertising {
@@ -179,21 +178,6 @@
         default:
             break;
     }
-}
-
-- (void) peripheralManager:(CBPeripheralManager *)peripheral
-                  central:(CBCentral *)central
-didSubscribeToCharacteristic:(CBCharacteristic *)characteristic {
-    NSLog(@"didSubscribe: %@", characteristic.UUID);
-    NSLog(@"didSubscribe: - Central: %@", central.identifier);
-    [self.delegate peripheralModel:self centralDidSubscribe:central];
-}
-
-- (void)peripheralManager:(CBPeripheralManager *)peripheral
-                  central:(CBCentral *)central
-didUnsubscribeFromCharacteristic:(CBCharacteristic *)characteristic {
-    NSLog(@"didUnsubscribe: %@", central.identifier);
-    [self.delegate peripheralModel:self centralDidUnsubscribe:central];
 }
 
 - (void) peripheralManager:(CBPeripheralManager *)peripheral didReceiveReadRequest:(CBATTRequest *)request {

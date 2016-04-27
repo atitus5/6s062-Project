@@ -7,10 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViewController.h"
+#import "PeripheralModel.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+#define RELOCK_INTERVAL 3.0
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate,  PeripheralModelDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong) PeripheralModel *peripheralModel;
+@property (nonatomic, strong) ViewController *viewController;
+
+- (void)lockPeripheral:(NSTimer *)timer;
 
 @end
 
