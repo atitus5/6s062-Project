@@ -204,7 +204,7 @@ int logCount = 1;   // Track number of log files written
         NSLog(@"No data in log");
         return;
     }
-    NSString *emailTitle = [NSString stringWithFormat:@"Log File %d", logCount];
+    NSString *emailTitle = [NSString stringWithFormat:@"RSSI Log File %d", logCount];
     NSString *messageBody = @"Data from SureLock Central";
     
     MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];

@@ -166,6 +166,7 @@
     [[self delegate] bleManagerDidReceiveUpdate:self
                                   updateMessage:[NSString stringWithFormat:@"RSSI: %.1f\nAcc. Mag.: %.3f", [[self currentRSSI] doubleValue], accelMag]];
     
+#if !(DATA_COLLECTION)
     if ([[self currentRSSI] doubleValue] >= RSSI_THRESHOLD) {
         if (accelMag <= ACCEL_MAG_THRESHOLD) {
             NSString *password = @"sayplease";
@@ -175,6 +176,7 @@
             [accelManager stopDeviceMotionUpdates];
         }
     }
+#endif
     [[self currentLock] readRSSI]; // Request new RSSI estimate
 }
 
