@@ -1,15 +1,15 @@
 digraph Tree {
-0 [label="RSSI <= -61.5000\ngini = 0.0656249255159\nsamples = 7743", shape="box"] ;
-1 [label="RSSI <= -70.5000\ngini = 0.0402010180619\nsamples = 7553", shape="box"] ;
+0 [label="Smoothed RSSI <= -66.3129\ngini = 0.0656249255159\nsamples = 7743", shape="box"] ;
+1 [label="Smoothed RSSI <= -70.5800\ngini = 0.0343411541296\nsamples = 7496", shape="box"] ;
 0 -> 1 ;
-2 [label="gini = 0.0093\nsamples = 6635\nvalue = [ 6604.    31.]", shape="box"] ;
+2 [label="gini = 0.0100\nsamples = 6965\nvalue = [ 6930.    35.]", shape="box"] ;
 1 -> 2 ;
-3 [label="gini = 0.2337\nsamples = 918\nvalue = [ 794.  124.]", shape="box"] ;
+3 [label="gini = 0.2962\nsamples = 531\nvalue = [ 435.   96.]", shape="box"] ;
 1 -> 3 ;
-4 [label="Acceleration Magnitude <= 0.2106\ngini = 0.490637119114\nsamples = 190", shape="box"] ;
+4 [label="Smoothed RSSI <= -63.2522\ngini = 0.497631496992\nsamples = 247", shape="box"] ;
 0 -> 4 ;
-5 [label="gini = 0.3112\nsamples = 83\nvalue = [ 16.  67.]", shape="box"] ;
+5 [label="gini = 0.4707\nsamples = 161\nvalue = [ 100.   61.]", shape="box"] ;
 4 -> 5 ;
-6 [label="gini = 0.4727\nsamples = 107\nvalue = [ 66.  41.]", shape="box"] ;
+6 [label="gini = 0.2880\nsamples = 86\nvalue = [ 15.  71.]", shape="box"] ;
 4 -> 6 ;
 }
