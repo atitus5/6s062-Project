@@ -13,6 +13,8 @@
     CMDeviceMotionHandler accelHandler;
 }
 
+int samplesAveraged = 0;
+
 - (id)initWithDelegate:(id)d {
     self = [super init];
     
@@ -85,7 +87,6 @@
     [[self delegate] bleManagerDidUpdateStatus:self
                                  updateMessage:[NSString stringWithFormat:@"Disconnected from peripheral with name %@ - scanning for peripherals...", [self currentLock].name]];
     [self setCurrentLock:nil];
-    [self setCurrentRSSI:@INT_MIN];  // Clear stale estimate
     [lm stopUpdatingLocation];  // Stop background motion updates
     [[self delegate] bleManagerDidReceiveUpdate:self
                                   updateMessage:@"Waiting for feature update..."];
@@ -163,20 +164,33 @@
     // Check if signal strong enough (i.e. close enough to peripheral)
     double accelMag = sqrt(pow([motion userAcceleration].x, 2.0) + pow([motion userAcceleration].y, 2.0) + pow([motion userAcceleration].z, 2.0));
     
-    [[self delegate] bleManagerDidReceiveUpdate:self
-                                  updateMessage:[NSString stringWithFormat:@"RSSI: %.1f\nAcc. Mag.: %.3f", [[self currentRSSI] doubleValue], accelMag]];
-    
 #if !(DATA_COLLECTION)
-    if ([[self currentRSSI] doubleValue] >= RSSI_THRESHOLD) {
-        if (accelMag <= ACCEL_MAG_THRESHOLD) {
-            NSString *password = @"sayplease";
-            [[self currentLock] writeValue:[password dataUsingEncoding:NSUTF8StringEncoding]
-                 forCharacteristic:[self currentCharacteristic]
-                              type:CBCharacteristicWriteWithResponse];
-            [accelManager stopDeviceMotionUpdates];
+    if (samplesAveraged == EWMA_WINDOW) {
+        if ([[self currentSmoothedRSSI] doubleValue] >= RSSI_THRESHOLD) {
+            if (accelMag <= ACCEL_MAG_THRESHOLD) {
+                NSString *password = @"sayplease";
+                [[self currentLock] writeValue:[password dataUsingEncoding:NSUTF8StringEncoding]
+                             forCharacteristic:[self currentCharacteristic]
+                                          type:CBCharacteristicWriteWithResponse];
+                [accelManager stopDeviceMotionUpdates];
+            }
         }
+        
+        [[self delegate] bleManagerDidReceiveUpdate:self
+                                      updateMessage:[NSString stringWithFormat:@"Smoothed RSSI: %.1f\nAcc. Mag.: %.3f", [[self currentSmoothedRSSI] doubleValue], accelMag]];
+    } else {
+        [[self delegate] bleManagerDidReceiveUpdate:self
+                                      updateMessage:[NSString stringWithFormat:@"Smoothed RSSI: %.1f\nAcc. Mag.: %.3f\nWaiting for more samples...", [[self currentSmoothedRSSI] doubleValue], accelMag]];
     }
 #endif
+    // check if first value has been received yet (in order to initialize Smoothed RSSI value)
+    if ([self currentSmoothedRSSI]) {
+        [self setCurrentSmoothedRSSI:[NSNumber numberWithDouble:((EWMA_ALPHA * [[self currentRSSI] doubleValue]) + ((1.0 - EWMA_ALPHA) * [[self currentSmoothedRSSI] doubleValue]))]];
+        samplesAveraged = MIN(++samplesAveraged, EWMA_WINDOW);
+    } else if ([self currentRSSI]) {
+        [self setCurrentSmoothedRSSI:[self currentRSSI]];
+        samplesAveraged = MIN(++samplesAveraged, EWMA_WINDOW);
+    }
     [[self currentLock] readRSSI]; // Request new RSSI estimate
 }
 

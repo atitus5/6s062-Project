@@ -71,7 +71,7 @@
     // Must have a connected peripheral
     if ([currentManager currentLock]) {
         [[currentManager currentLock] readRSSI]; // Request new RSSI estimate
-        double currentRSSIEstimate = [[currentManager currentRSSI] doubleValue];
+        double currentRSSIEstimate = [[currentManager currentSmoothedRSSI] doubleValue];
         [self logLineToDataFile:[NSString stringWithFormat:@"%f,%f,%f,%f,%f,%d\n", [motion timestamp], [motion userAcceleration].x, [motion userAcceleration].y, [motion userAcceleration].z, currentRSSIEstimate, [self isUnlockRequested]]];
     }
 }
