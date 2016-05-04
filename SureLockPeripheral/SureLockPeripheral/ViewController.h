@@ -7,13 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PeripheralModel.h"
 
+@import CoreBluetooth;
 
-@interface ViewController : UIViewController
+#define RELOCK_INTERVAL 3.0
+
+@interface ViewController : UIViewController <PeripheralModelDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *lockLabel;
+@property (nonatomic, strong) PeripheralModel *peripheralModel;
 
-- (void) lockPeripheral;
+- (void)lockPeripheral:(NSTimer *)timer;
 - (void) unlockPeripheral;
 
 @end
