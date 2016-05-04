@@ -8,26 +8,14 @@
 
 #import "AppDelegate.h"
 
-#define SL_SERVICE_UUID "774763C4-0278-4722-91FC-ED1B71365BD4"
-#define SL_CHAR_TX_UUID "55F34A89-B450-48CF-9C14-6BE729856ABF"
-
 @interface AppDelegate ()
 @end
 
-@implementation AppDelegate {
-    NSTimer *relockTimer;
-}
+@implementation AppDelegate
 
     
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    
-    self.peripheralModel = [[PeripheralModel alloc] initWithDelegate:self];
-    self.peripheralModel.serviceName = @"SureLock";
-    self.peripheralModel.serviceUUID = [CBUUID UUIDWithString:@SL_SERVICE_UUID];
-    self.peripheralModel.characteristicUUID = [CBUUID UUIDWithString:@SL_CHAR_TX_UUID];
-    [self.peripheralModel startAdvertising];
-    
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
     return YES;
 }
 
@@ -51,24 +39,6 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-#pragma mark - PeripheralModelDelegate
-
-- (void)peripheralModel:(PeripheralModel *)peripheral centralDidAuthenticate:(CBCentral *)central {
-    [(ViewController *)self.window.rootViewController unlockPeripheral];
-    
-    [relockTimer invalidate]; // Stop current timer
-    relockTimer = nil;  // Clear timer
-    relockTimer = [NSTimer scheduledTimerWithTimeInterval:RELOCK_INTERVAL
-                                                   target:self
-                                                 selector:@selector(lockPeripheral:)
-                                                 userInfo:nil
-                                                  repeats:NO];
-}
-
-- (void)lockPeripheral:(NSTimer *)timer {
-    [(ViewController *)self.window.rootViewController lockPeripheral];
 }
 
 @end

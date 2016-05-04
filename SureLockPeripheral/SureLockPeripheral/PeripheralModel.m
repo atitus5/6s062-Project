@@ -7,8 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreBluetooth/CoreBluetooth.h>
-
 #import "PeripheralModel.h"
 
 @interface PeripheralModel () <CBPeripheralManagerDelegate>
