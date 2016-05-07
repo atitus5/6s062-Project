@@ -162,12 +162,15 @@ int samplesAveraged = 0;
 
 -(void)evalAccel: (CMDeviceMotion *)motion {
     // Check if signal strong enough (i.e. close enough to peripheral)
-    double accelMag = sqrt(pow([motion userAcceleration].x, 2.0) + pow([motion userAcceleration].y, 2.0) + pow([motion userAcceleration].z, 2.0));
+    [self setCurrentSmoothedXAccel:[NSNumber numberWithDouble:((ACCEL_ALPHA * [motion userAcceleration].x) + ((1.0 - ACCEL_ALPHA) * [[self currentSmoothedXAccel] doubleValue]))]];
+    [self setCurrentSmoothedYAccel:[NSNumber numberWithDouble:((ACCEL_ALPHA * [motion userAcceleration].y) + ((1.0 - ACCEL_ALPHA) * [[self currentSmoothedYAccel] doubleValue]))]];
+    [self setCurrentSmoothedZAccel:[NSNumber numberWithDouble:((ACCEL_ALPHA * [motion userAcceleration].z) + ((1.0 - ACCEL_ALPHA) * [[self currentSmoothedZAccel] doubleValue]))]];
+    double smoothedAccelMag = sqrt(pow([[self currentSmoothedXAccel] doubleValue], 2.0) + pow([[self currentSmoothedYAccel] doubleValue], 2.0) + pow([[self currentSmoothedZAccel] doubleValue], 2.0));
     
 #if !(DATA_COLLECTION)
     if (samplesAveraged == EWMA_WINDOW) {
         if ([[self currentSmoothedRSSI] doubleValue] >= RSSI_THRESHOLD) {
-            if (accelMag <= ACCEL_MAG_THRESHOLD) {
+            if (smoothedAccelMag <= ACCEL_MAG_THRESHOLD) {
                 NSString *password = @"sayplease";
                 [[self currentLock] writeValue:[password dataUsingEncoding:NSUTF8StringEncoding]
                              forCharacteristic:[self currentCharacteristic]
@@ -177,10 +180,10 @@ int samplesAveraged = 0;
         }
         
         [[self delegate] bleManagerDidReceiveUpdate:self
-                                      updateMessage:[NSString stringWithFormat:@"Smoothed RSSI: %.1f\nAcc. Mag.: %.3f", [[self currentSmoothedRSSI] doubleValue], accelMag]];
+                                      updateMessage:[NSString stringWithFormat:@"Smoothed RSSI: %.1f\nAcc. Mag.: %.3f", [[self currentSmoothedRSSI] doubleValue], smoothedAccelMag]];
     } else {
         [[self delegate] bleManagerDidReceiveUpdate:self
-                                      updateMessage:[NSString stringWithFormat:@"Smoothed RSSI: %.1f\nAcc. Mag.: %.3f\nWaiting for more samples...", [[self currentSmoothedRSSI] doubleValue], accelMag]];
+                                      updateMessage:[NSString stringWithFormat:@"Smoothed RSSI: %.1f\nAcc. Mag.: %.3f\nWaiting for more samples...", [[self currentSmoothedRSSI] doubleValue], smoothedAccelMag]];
     }
 #endif
     // check if first value has been received yet (in order to initialize Smoothed RSSI value)
