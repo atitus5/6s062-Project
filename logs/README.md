@@ -1,10 +1,10 @@
 # Data logs for SureLock
 
-## Data were collected for SureLock, using a simple CSV file logger on the central iPhone that is connected to the peripheral iPhone via BLE.
+## Data were collected for SureLock, using a simple CSV file logger on the central iPhone that is connected to the peripheral iPhone via BLE. Additionally, there are some IPython notebooks included that conduct various analyses on the data. However, some have hacky fixes or unused analysis/graphs - use at your own risk!
 
 ### The logs from April 19th (4/19) consist of test runs, where the following data are collected at 10 Hz:
-* raw RSSI data
-* acceleration (X, Y, and Z)
+* raw RSSI data (dB)
+* acceleration (X, Y, and Z) (g)
 * a binary value indicating whether the user requested an unlock
 
 ### 36 test runs were conducted, with the following setup:
@@ -28,8 +28,8 @@
 * 35,36: no unlock request, phone in pocket, Stata Center
 
 ### The logs from April 30th (4/30) consist of static RSSI and acceleration tests conducted at Briggs Field, in order to better characterize their variance. The following data are collected at 10 Hz:
-* raw RSSI data
-* acceleration (X, Y, and Z)
+* raw RSSI data (dB)
+* acceleration (X, Y, and Z) (g)
 * a binary value indicating whether the user requested an unlock (NOT USED HERE - IGNORE)
 
 ### 30 test runs were conducted, with the following setup:
