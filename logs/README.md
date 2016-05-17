@@ -1,6 +1,6 @@
 # Data logs for SureLock
 
-## Data were collected for SureLock, using a simple CSV file logger on the central iPhone that is connected to the peripheral iPhone via BLE. Additionally, there are some IPython notebooks included that conduct various analyses on the data. However, some have hacky fixes or unused analysis/graphs - use at your own risk!
+## Data were collected for SureLock using a simple CSV file logger on the central iPhone that is connected to the peripheral iPhone via BLE. Additionally, there are some IPython notebooks included that conduct various analyses on the data. However, some have hacky fixes or unused analysis/graphs - use at your own risk!
 
 ### The logs from April 19th (4/19) consist of test runs, where the following data are collected at 10 Hz:
 * raw RSSI data (dB)
