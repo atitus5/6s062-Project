@@ -4,6 +4,7 @@
 * raw RSSI data
 * acceleration (X, Y, and Z)
 * a binary value indicating whether the user requested an unlock
+
 ### 36 test runs were conducted, with the following setup:
 * 1,2: request unlock, phone out/texting, EECS lounge
 * 3,4: request unlock, phone at ear/call, EECS lounge
@@ -28,6 +29,7 @@
 * raw RSSI data
 * acceleration (X, Y, and Z)
 * a binary value indicating whether the user requested an unlock (NOT USED HERE - IGNORE)
+
 ### 30 test runs were conducted, with the following setup:
 * 1: 90 feet, phone out/texting
 * 2: 90 feet, phone at ear/call
